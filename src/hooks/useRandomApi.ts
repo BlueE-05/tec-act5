@@ -5,7 +5,7 @@ interface ApiResponse {
   status: string;
 }
 
-const API_URL = "";
+const API_URL = "https://randomapi.com/api/?key=MAWB-RIUD-HEE7-AWRZ&ref=0pyu7nt7";
 
 export const useFetchData = () => {
   const [data, setData] = useState<ApiResponse | null>(null);
