@@ -1,58 +1,39 @@
 'use client'
 
-import { useState } from "react";
+import { usePeopleApi } from "@/hooks/usePersonApi";
+import { useEffect, useState } from "react";
 import InfoDisplay from "@/components/InfoDisplay";
 import HistoryDisplay from "@/components/HistoryDisplay";
+import { Person } from "@/types/person";
+import { LoaderCircle } from "lucide-react";
 
-export default function Home() {
-  const people = [
-    {
-      profile_pic: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-      name: "Carlos Rodríguez",
-      phone: "555-666-7777",
-      email: "carlos.rod@example.com",
-      birthday: "1995-12-10",
-      age: 29,
-      address: "Boulevard Central 456, Metropolis",
-      userName: "carlosrod95",
-      password: "segura5678",
-    },
-    {
-      profile_pic: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-      name: "María López",
-      phone: "987-654-3210",
-      email: "maria.lopez@example.com",
-      birthday: "1985-08-22",
-      age: 39,
-      address: "Avenida Siempreviva 742, Springfield",
-      userName: "marialopez85",
-      password: "clave1234",
-    },
-    {
-      profile_pic: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-      name: "Juan Pérez",
-      phone: "123-456-7890",
-      email: "juan.perez@example.com",
-      birthday: "1990-05-15",
-      age: 34,
-      address: "Calle Falsa 123, Ciudad Ejemplo",
-      userName: "juanperez90",
-      password: "supersegura123",
-    },
-  ]; {/*hardcodeado para pruebas*/ }
+export default function PeoplePage() {
+  const { currentPerson, personHistory, loading, error, fetchData } = usePeopleApi();
+  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
 
-  const [selectedPerson, setSelectedPerson] = useState(people[0]);
+  useEffect(() => {
+    if (currentPerson) {
+      setSelectedPerson(currentPerson);
+    }
+  }, [currentPerson]);
 
   return (
-    <main className="flex flex-row items-stretch p-10 min-h-screen h-screen gap-6">
-      {/* Columna izquierda con botones */}
-      <div className="w-1/4 h-full flex flex-col">
-        <HistoryDisplay people={people} onSelect={setSelectedPerson} />
+    <main className="bg-gray-100 flex flex-row items-stretch p-10 min-h-screen h-screen gap-6 relative">
+      {/* Columna izquierda con historial */}
+      <div className="w-1/4 h-full flex flex-col overflow-y-auto">
+        <HistoryDisplay people={personHistory} onSelect={setSelectedPerson} />
+      </div>
+
+      {/* Botón */}
+      <div className="absolute top-4 right-5 flex justify-center items-center gap-6">
+        {loading && <LoaderCircle className="animate-spin"/>}
+        <button onClick={fetchData} disabled={loading} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400">Get New Person</button>
       </div>
 
       {/* Display de información a la derecha */}
-      <div className="w-3/4 h-full flex items-center justify-center">
-        <InfoDisplay person={selectedPerson} />
+      <div className="w-3/4 h-full flex flex-col items-center justify-center">
+        {error && <p className="text-red-500">Error: {error}</p>}
+        {selectedPerson && <InfoDisplay person={selectedPerson} />}
       </div>
     </main>
   );
