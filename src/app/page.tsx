@@ -76,7 +76,7 @@ export default function PeoplePage() {
 
       {/* Botón */}
       <div className="absolute top-4 right-5 flex justify-center items-center gap-6">
-        {loading && <LoaderCircle className="animate-spin"/>}
+        {loading && <LoaderCircle className="animate-spin text-red-700"/>}
         <button onClick={fetchData} disabled={loading} className="mt-4 px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-900 disabled:bg-gray-400">Get New Person</button>
       </div>
 
