@@ -17,9 +17,9 @@ const InfoDisplay = ({ person }: { person: Person }) => {
     };
 
     return (
-        <div className="bg-white shadow-xl border-dashed border-2 border-stone-100 rounded-xl flex flex-col items-center justify-between p-8 w-[75%] h-[75%] mx-auto my-auto">
+        <div className="bg-white/30 backdrop-blur-md shadow-xl border-dashed border-2 border-stone-100 rounded-xl flex flex-col items-center justify-between p-8 w-[75%] h-[75%] mx-auto my-auto">
             {/* Imagen */}
-            <img src={person.profile_pic} alt="Profile" className="w-42 h-42 rounded-full mb-6 -mt-16 border-8 border-white mx-auto" />
+            <img src={person.profile_pic} alt="Profile" className="w-42 h-42 rounded-full mb-6 -mt-16 border-8 border-white/20 mx-auto" />
 
             {/* Mensaje descriptivo */}
             {infoMap[infoType].message.map((msg, index) => (
